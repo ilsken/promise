@@ -1,5 +1,5 @@
-function Promise(fn) {
-  if (!(this instanceof Promise)) return new Promise(fn)
+function PromiseSync(fn) {
+  if (!(this instanceof PromiseSync)) return new PromiseSync(fn)
   if (typeof fn !== 'function') throw new TypeError('not a function')
   var state = null
   var delegating = false
@@ -8,7 +8,7 @@ function Promise(fn) {
   var self = this
 
   this.then = function(onFulfilled, onRejected) {
-    return new Promise(function(resolve, reject) {
+    return new PromiseSync(function(resolve, reject) {
       handle(new Handler(onFulfilled, onRejected, resolve, reject))
     })
   }
@@ -45,8 +45,8 @@ function Promise(fn) {
   function resolve_(newValue) {
     if (state !== null)
       return
-    try { //Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
-      if (newValue === self) throw new TypeError('A promise cannot be resolved with itself.')
+    try { //PromiseSync Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promiseSync-resolution-procedure
+      if (newValue === self) throw new TypeError('A promiseSync cannot be resolved with itself.')
       if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
         var then = newValue.then
         if (typeof then === 'function') {
