@@ -295,10 +295,9 @@ function PromiseSync(fn) {
     deferreds = null
   }
 
-  setImmediate(function(){
-    try { fn(resolve, reject) }
-    catch(e) { reject(e) }  
-  })
+  try { fn(resolve, reject) }
+  catch(e) { reject(e) }  
+  
   
 }
 
